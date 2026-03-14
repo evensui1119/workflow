@@ -7,8 +7,8 @@ to the workspace root (server is started with cwd=workspace).
 import sys
 from pathlib import Path
 
-# Workspace root (server is started with cwd=workspace)
-WORKSPACE_ROOT = Path(__file__).resolve().parent.parent.parent
+# Workspace root: .cursor/mcps/doc-tools/server.py -> parent x4
+WORKSPACE_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 # Import counting logic from .cursor/scripts
 sys.path.insert(0, str(WORKSPACE_ROOT / ".cursor" / "scripts"))
 from count_doc import count_file

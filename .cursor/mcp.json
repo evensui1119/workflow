@@ -11,7 +11,7 @@
     "doc-tools": {
       "command": "python3",
       "args": [
-        ".cursor/mcps/server.py"
+        ".cursor/mcps/doc-tools/server.py"
       ],
       "cwd": "/Users/suijie/workspace/workflow",
       "env": {
