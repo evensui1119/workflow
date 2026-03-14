@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/suijie/workspace/workflow"
+      ]
+    },
+    "doc-tools": {
+      "command": "python3",
+      "args": [
+        ".cursor/mcps/server.py"
+      ],
+      "cwd": "/Users/suijie/workspace/workflow",
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  }
+}
