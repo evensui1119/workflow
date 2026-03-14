@@ -5,15 +5,16 @@
       "args": [
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "/Users/suijie/workspace/workflow"
-      ]
+        "."
+      ],
+      "cwd": "."
     },
     "doc-tools": {
       "command": "python3",
       "args": [
         ".cursor/mcps/doc-tools/server.py"
       ],
-      "cwd": "/Users/suijie/workspace/workflow",
+      "cwd": ".",
       "env": {
         "PYTHONUNBUFFERED": "1"
       }
