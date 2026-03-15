@@ -1,6 +1,6 @@
 ---
 name: classic-folk-story
-description: 中国经典民间故事讲述助手，专门讲述/重述中国传统经典故事，而非原创新故事。涵盖上古神话（盘古开天、女娲补天、后羿射日）、四大民间传说（牛郎织女、孟姜女、白蛇传、梁祝）、仙凡奇缘（天仙配、田螺姑娘、宝莲灯）、聊斋志异（画皮、聂小倩、促织）、志怪小说（干将莫邪、聂隐娘、黄粱梦）、搜神志怪（谈生、落头民、鬼市）、子不语·阅微（僵尸求食、飞僵、骷髅报恩）、民间恐怖与悬疑（赶尸、冥婚、鬼打墙）等经典篇目。默认采用汪曾祺风格（干净松弛、白描细节、温润幽默），篇幅按故事容量分档；写完后经 novel-editor 评测、按报告修改，再经 humanizer-zh-runner subagent 改写去 AI 痕。Use when the user wants to hear, read, or retell classic Chinese folk stories and legends. Triggers on requests like "讲个民间故事", "讲讲孟姜女的故事", "讲个鬼故事", "给我讲牛郎织女", "中国经典故事", "讲个老故事", "classic Chinese story", "tell me a Chinese legend", "Chinese folklore", "给孩子讲个故事", "中国神话故事", "聊斋故事", "四大民间传说", "恐怖故事", "志怪故事".
+description: 中国经典民间故事讲述助手，专门讲述/重述中国传统经典故事，而非原创新故事。涵盖上古神话（盘古开天、女娲补天、后羿射日）、四大民间传说（牛郎织女、孟姜女、白蛇传、梁祝）、仙凡奇缘（天仙配、田螺姑娘、宝莲灯）、聊斋志异（画皮、聂小倩、促织）、志怪小说（干将莫邪、聂隐娘、黄粱梦）、搜神志怪（谈生、落头民、鬼市）、子不语·阅微（僵尸求食、飞僵、骷髅报恩）、民间恐怖与悬疑（赶尸、冥婚、鬼打墙）等经典篇目。默认采用汪曾祺风格（干净松弛、白描细节、温润幽默），篇幅按故事容量分档；写完后经 classic-folk-story-editor 专用评测、按报告修改。Use when the user wants to hear, read, or retell classic Chinese folk stories and legends. Triggers on requests like "讲个民间故事", "讲讲孟姜女的故事", "讲个鬼故事", "给我讲牛郎织女", "中国经典故事", "讲个老故事", "classic Chinese story", "tell me a Chinese legend", "Chinese folklore", "给孩子讲个故事", "中国神话故事", "聊斋故事", "四大民间传说", "恐怖故事", "志怪故事".
 ---
 
 # Classic Folk Story Teller
@@ -36,7 +36,9 @@ description: 中国经典民间故事讲述助手，专门讲述/重述中国传
 
 用户要求「列出民间故事」「推荐一些」「200 个故事」等 → 提供或引用 [200-stories-index.md](references/stories/200-stories-index.md) 中的 200 则清单，可按类展示或按需筛选。
 
-用户未指定具体故事 → **先查阅 [told-stories.md](references/stories/told-stories.md)** 了解已讲过的故事，在 200 则中**优先推荐未出现在已讲列表中的**；若用户说「换一个」「再讲一个」也优先选未讲过的。再根据以下线索定类：
+用户未指定具体故事 → **先查阅 [told-stories.md](references/stories/told-stories.md)**：
+1. 先看「下一篇预告」——如果上一篇结尾引流承诺了某则故事，**必须优先兑现**（除非用户明确要求换别的）。
+2. 若无预告，则查已讲列表，在 200 则中**优先推荐未出现在已讲列表中的**；若用户说「换一个」「再讲一个」也优先选未讲过的。再根据以下线索定类：
 - 提到"给孩子讲" → 优先推荐：上古神话、仙凡奇缘类
 - 提到"爱情" → 四大民间传说、仙凡奇缘类
 - 提到"神话" → 上古神话类
@@ -107,41 +109,38 @@ description: 中国经典民间故事讲述助手，专门讲述/重述中国传
 
 ### 4. 评测与修订（必做）
 
-故事成文后，按以下顺序执行，得到终稿后再记录已讲、提供延伸内容。**完成讲述（步骤 3）后必须执行 4.1（创建 novel-editor-runner subagent 并执行评测），否则流程视为未完成。**
+故事成文后，按以下顺序执行，得到终稿后再记录已讲、提供延伸内容。**完成讲述（步骤 3）后必须执行 4.1（评测）和 4.2（修改），否则流程视为未完成。**
 
-**4.1 创建 novel-editor-runner subagent 并执行评测**  
-- 主 agent 不在此对话中直接跑 novel-editor，而是**创建 subagent**：使用 **mcp_task** 创建并调用 **novel-editor-runner**（职责见 `.cursor/agents/novel-editor-runner.md`），将本次讲述的正文路径（及可选的大纲、设定路径）传给它，由它按 novel-editor 技能完成多维评测并产出报告。  
+**4.1 创建 classic-folk-story-editor-runner subagent 并执行评测**  
+- 主 agent 不在此对话中直接跑评测，而是**创建 subagent**：使用 **mcp_task** 创建并调用 **classic-folk-story-editor-runner**（职责见 `.cursor/agents/classic-folk-story-editor-runner.md`），将本次讲述的正文路径及评测参数传给它，由它按 classic-folk-story-editor 技能完成 7 维度评测并产出报告。  
 - **mcp_task 调用要点**：
-  - **subagent_type**：`generalPurpose`（需完整执行 novel-editor 工作流与读写）。
-  - **description**：简短说明，如「对刚完成的经典民间故事讲述执行 novel-editor 多维评测（novel-editor-runner）」。
+  - **subagent_type**：`classic-folk-story-editor-runner`。
+  - **description**：简短说明，如「对刚完成的经典民间故事执行 classic-folk-story-editor 专用评测」。
   - **prompt**：在 prompt 中明确写出（以下为必含内容）：
-    1. 你是 **novel-editor-runner** agent，请按 `.cursor/agents/novel-editor-runner.md` 的职责执行：加载 novel-editor 技能，对指定作品进行多维评测。
-    2. **待评测材料**（须一并提供给 subagent）：
+    1. 你是 **classic-folk-story-editor-runner** agent，请按 `.cursor/agents/classic-folk-story-editor-runner.md` 的职责执行：加载 classic-folk-story-editor 技能，对指定作品进行 7 维度评测。
+    2. **待评测材料**：
        - **正文**：写明完整路径（如 `novel/作品名.md`）；若正文仅在对话上文未保存，写明「待评测正文即上文由 classic-folk-story 流程输出的故事正文」并确保 subagent 能访问。
        - **大纲**：若有（如 `novel/作品名-大纲.md`），写明完整路径。
        - **设定**：若有（如 `novel/作品名-设定.md`），写明完整路径。
-    3. **评测参数**：小说类型选「民间故事/传说」或与故事所属分类最接近的类型（参考 novel-editor 的 genre-focus），篇幅类型按动笔前定的档位（短篇 2000–3500 / 中篇 4000–6000 / 长篇 7000–10000）判断，作品阶段选「初稿」；其余按 novel-editor 步骤 2 取默认。
-    4. 按 novel-editor 完整流程执行并保存报告到 `novel/作品名-评测报告.md`；最终将评测结论与报告路径返回给主对话。
-- **不跳过**：除非用户明确表示「不要评测」或「先不评测」，否则完成讲述后**必须**发起上述「创建 novel-editor-runner subagent」的 mcp_task 调用，不可省略。
+    3. **评测参数**：
+       - **故事分类**：本则故事在 200 则索引中的分类（上古神话 / 四大民间传说 / 仙凡奇缘 / 聊斋志异 / 志怪小说 / 搜神志怪 / 子不语·阅微 / 民间恐怖与悬疑）。
+       - **篇幅档位**：动笔前定的档位（短篇 2000–3500 / 中篇 4000–6000 / 长篇 7000–10000）。
+       - **使用的风格**：本次讲述所用的风格（汪曾祺·明面 / 汪曾祺·暗面 / 白话演绎 / 莫言式 / 东野圭吾式）。
+       - **作品阶段**：初稿（默认）。
+    4. 按 classic-folk-story-editor 完整流程执行并保存报告到 `novel/作品名-评测报告.md`；最终将评测结论与报告路径返回给主对话。
+- **不跳过**：除非用户明确表示「不要评测」或「先不评测」，否则完成讲述后**必须**发起上述 mcp_task 调用，不可省略。
 
 **4.2 按评测报告修改**  
-- 根据评测报告中的低分维度与「修改建议」逐条修订正文，优先处理情节架构、角色塑造、文笔风格、可读性等问题。  
+- 根据评测报告中的低分维度与「修改清单」逐条修订正文，优先处理忠实度、结构与节奏、风格执行、可读性等问题。  
 - 修订后可用 MCP **count_document** 核验字数仍落在该档位区间内（短篇 2000–3500 / 中篇 4000–6000 / 长篇 7000–10000）。
-
-**4.3 创建 humanizer-zh-runner subagent 并执行去 AI 痕**  
-- 主 agent 不在此对话中直接跑 humanizer-zh，而是**创建 subagent**：使用 **mcp_task** 创建并调用 **humanizer-zh-runner**（职责见 `.cursor/agents/humanizer-zh-runner.md`），将修订后的正文路径传给它，由它按 humanizer-zh 技能完成人性化改写并写回终稿。  
-- **mcp_task 调用要点**：  
-  - **subagent_type**：`generalPurpose`（需完整执行 humanizer-zh 工作流与读写）。  
-  - **prompt** 中须包含：  
-    1. 明确说明本任务为「对 classic-folk-story 流程产出的修订稿执行 humanizer-zh 去 AI 痕」。  
-    2. **正文路径**：写明完整路径（如 `novel/作品名.md`），即 4.2 修订后保存的文件。  
-    3. 要求 subagent 将人性化后的文本写入新文件「原文件名_humanizer.md」（不修改原文件），并将修改摘要与输出路径返回给主对话。  
-- 将 humanizer-zh-runner 产出的 `*_humanizer.md` 文件视为故事**终稿**；subagent 返回输出路径后即可进行「记录已讲」。  
-- **不跳过**：除非用户明确表示「不要人性化」或「先不去 AI 痕」，否则完成 4.2 修订后**必须**发起上述「创建 humanizer-zh-runner subagent」的 mcp_task 调用，不可省略。
+- 修订完成后的正文即为**终稿**，进入「记录已讲」步骤。
 
 ### 5. 记录已讲（必做）
 
-终稿确定后，**将本则故事名及所属分类追加到 [told-stories.md](references/stories/told-stories.md) 的「已讲述列表」**，格式示例：`- 牛郎织女（四大民间传说）`。用户点名指定讲某则时也需记录，便于后续推荐时避开重复。
+终稿确定后：
+1. **将本则故事名及所属分类追加到 [told-stories.md](references/stories/told-stories.md) 的「已讲述列表」**，格式示例：`- 牛郎织女（四大民间传说）`。用户点名指定讲某则时也需记录，便于后续推荐时避开重复。
+2. **如果本则故事是兑现上一篇的预告**，清空 told-stories.md 的「下一篇预告」字段。
+3. **如果本则故事的结尾写了引流文字**，将承诺的下一篇故事名填入「下一篇预告」字段。
 
 ### 6. 延伸内容（按需）
 
@@ -158,7 +157,7 @@ description: 中国经典民间故事讲述助手，专门讲述/重述中国传
 - **篇幅按故事容量分档**：短篇 2000–3500 字、中篇 4000–6000 字、长篇 7000–10000 字。动笔前按 [writing-guide.md](references/writing-guide.md) 的「数节点」方法确定档位，不硬撑字数
 - 如用户要求保存文件，存入 `novel/` 目录，文件名用故事名
 - **字数检查**：保存后应调用 MCP 工具 **count_document(文件路径)** 获取精确字数，核对是否落在该档位的区间内（短篇 2000–3500 / 中篇 4000–6000 / 长篇 7000–10000）。
-- **完成讲述后必须执行 4.1（创建 novel-editor-runner subagent 并执行评测），否则流程视为未完成。**
+- **完成讲述后必须执行 4.1（评测）和 4.2（修改），否则流程视为未完成。**
 
 ## 特殊场景
 
@@ -176,7 +175,9 @@ description: 中国经典民间故事讲述助手，专门讲述/重述中国传
 
 ### 投放顺序策略
 
-不要按索引编号顺序发，按以下逻辑排期：
+不要按索引编号顺序发，按以下逻辑排期。
+
+**阶段判断**：每次选故事前，先读 [told-stories.md](references/stories/told-stories.md)，数已发布条目数（带「已发布」标记的），据此判断当前处于哪个阶段。
 
 **前 5 篇（冷启动）：选大众认知度最高的故事**
 - 从四大民间传说、聊斋名篇（画皮、聂小倩）、上古神话（后羿射日、精卫填海）中选
@@ -186,10 +187,18 @@ description: 中国经典民间故事讲述助手，专门讲述/重述中国传
 - 每 2-3 篇熟悉故事（白蛇传、田螺姑娘）搭配 1 篇冷门故事（谈生、千日酒、蔡书生）
 - 目的：让读者开始追作者而非追故事——"这个人写什么我都想看"
 
-**第 21 篇起（稳定期）：按情绪节奏排**
-- 暖→冷→暖交替。不要连续 3 篇以上同类型
+**第 21 篇起（稳定期）：按情绪色温排**
+- 暖→冷→暖交替。不要连续 3 篇以上同色温
 - 每隔 5-8 篇放一个"重磅"（长篇 / 高知名度），作为节奏锚点
-- 恐怖类不要扎堆发，与温情类穿插效果更好
+- 判断方法：读 told-stories.md 最近 3-5 条的分类，查下方色温表决定本篇选暖还是冷
+
+**八类故事的色温分类**（用于稳定期排期）：
+
+| 色温 | 分类 |
+|------|------|
+| 暖 | 上古神话、四大民间传说、仙凡奇缘 |
+| 中 | 聊斋志异（偏温情篇目如婴宁、小翠为暖；偏恐怖篇目如画皮、尸变为冷）、志怪小说 |
+| 冷 | 搜神志怪、子不语·阅微、民间恐怖与悬疑 |
 
 ### 平台适配要点
 
@@ -203,10 +212,12 @@ description: 中国经典民间故事讲述助手，专门讲述/重述中国传
 - 暗面故事：开头写一个极其日常的场景，但故意留一个"不对劲"的细节
 - **禁止**：以背景介绍开头、以"在中国古代"开头、以出处考据开头
 
-**结尾引流（可选）**：
-- 故事正文结束后，可加一段 50-100 字的「延伸」引导下一篇
+**结尾引流（可选但推荐）**：
+- **先定后写**：写引流文字前，必须先根据投放顺序策略确定下一篇是哪则故事，再据此撰写引流文字。不可先写一句模糊的引流再临时决定下一篇。
+- 故事正文结束后，加一段 50-100 字的「延伸」引导下一篇
 - 格式示例：「下一篇讲的是一个更古怪的事。一个书生夜里遇到个女人同行，那女人什么都好，就是不让他点灯——《谈生》」
 - 注意：这段引流文字不属于正文，不参与评测和字数统计
+- **写完引流后，必须将承诺的故事名更新到 [told-stories.md](references/stories/told-stories.md) 的「下一篇预告」字段**，确保下次对话能兑现
 
 **每篇末尾附简短出处**：
 - 一行即可：「本故事取材自清·蒲松龄《聊斋志异》卷一」
@@ -214,8 +225,10 @@ description: 中国经典民间故事讲述助手，专门讲述/重述中国传
 
 ### 发布追踪
 
-在 [told-stories.md](references/stories/told-stories.md) 中记录每则故事的发布状态，格式扩展为：
+在 [told-stories.md](references/stories/told-stories.md) 中记录每则故事的发布状态，平台模式下格式为：
 `- 画皮（聊斋志异）| 已发布 | 第 1 篇`
+
+引流承诺的下一篇故事记录在 told-stories.md 的「下一篇预告」字段中（见步骤 5）。
 
 ---
 
@@ -228,7 +241,7 @@ description: 中国经典民间故事讲述助手，专门讲述/重述中国传
 | 确定故事且已知分类 | [200-stories-index.md](references/stories/200-stories-index.md) + 对应分类文档（mythology / four-legends / fairy-mortal / liaozhai / zhiguai / soushen-zhiguai / qing-ghost / folk-horror） |
 | 推荐故事、防重复 | [told-stories.md](references/stories/told-stories.md) |
 | **讲述前（落笔前）** | [references/writing-guide.md](references/writing-guide.md)（五分钟清单）+ 风格卡：默认 [wangzengqi.md](references/style/wangzengqi.md)；普通白话→[baihua-retelling.md](references/style/baihua-retelling.md)；莫言→[moyan-folk.md](references/style/moyan-folk.md)；东野→[higashino.md](references/style/higashino.md) |
-| 评测与修订 | 通过 mcp_task 调用 novel-editor-runner（见 4.1）、humanizer-zh-runner（见 4.3） |
+| 评测与修订 | 通过 mcp_task 调用 classic-folk-story-editor-runner（见 4.1） |
 
 ## 风格参考
 
