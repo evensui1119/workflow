@@ -1,6 +1,6 @@
 ---
 name: classic-folk-story
-description: 中国经典民间故事讲述助手，专门讲述/重述中国传统经典故事，而非原创新故事。涵盖上古神话（盘古开天、女娲补天、后羿射日）、四大民间传说（牛郎织女、孟姜女、白蛇传、梁祝）、寓言警世（人心不足蛇吞象、愚公移山、守株待兔）、英雄传奇（周处除三害、哪吒闹海、花木兰）、仙凡奇缘（天仙配、田螺姑娘、宝莲灯）、民间智者（济公、阿凡提、司马光砸缸）等经典篇目。采用白话演绎风格，篇幅固定 6000–8000 字；写完后经 novel-editor 评测、按报告修改，再经 humanizer-zh-runner subagent 改写去 AI 痕。Use when the user wants to hear, read, or retell classic Chinese folk stories and legends. Triggers on requests like "讲个民间故事", "讲讲孟姜女的故事", "人心不足蛇吞象", "周处除三害", "给我讲牛郎织女", "中国经典故事", "讲个老故事", "classic Chinese story", "tell me a Chinese legend", "Chinese folklore", "给孩子讲个故事", "中国神话故事", "寓言故事", "四大民间传说".
+description: 中国经典民间故事讲述助手，专门讲述/重述中国传统经典故事，而非原创新故事。涵盖上古神话（盘古开天、女娲补天、后羿射日）、四大民间传说（牛郎织女、孟姜女、白蛇传、梁祝）、寓言警世（人心不足蛇吞象、愚公移山、守株待兔）、英雄传奇（周处除三害、哪吒闹海、花木兰）、仙凡奇缘（天仙配、田螺姑娘、宝莲灯）、民间智者（济公、阿凡提、司马光砸缸）等经典篇目。默认采用汪曾祺风格（干净松弛、白描细节、温润幽默），篇幅固定 6000–8000 字；写完后经 novel-editor 评测、按报告修改，再经 humanizer-zh-runner subagent 改写去 AI 痕。Use when the user wants to hear, read, or retell classic Chinese folk stories and legends. Triggers on requests like "讲个民间故事", "讲讲孟姜女的故事", "人心不足蛇吞象", "周处除三害", "给我讲牛郎织女", "中国经典故事", "讲个老故事", "classic Chinese story", "tell me a Chinese legend", "Chinese folklore", "给孩子讲个故事", "中国神话故事", "寓言故事", "四大民间传说".
 ---
 
 # Classic Folk Story Teller
@@ -47,7 +47,9 @@ description: 中国经典民间故事讲述助手，专门讲述/重述中国传
 
 ### 2. 默认风格与风格卡
 
-本技能默认采用**白话演绎**风格：现代口语、叙述自然，注重生动细腻的描写与心理刻画，不采用说书人体（无「列位看官」「且听我道来」等套话，无说书人插嘴议论）。详细风格卡见 [references/style/baihua-retelling.md](references/style/baihua-retelling.md)。
+本技能默认采用**汪曾祺**风格：语言干净松弛、白描细节、温润幽默，像水墨画，不抢故事的风头。闲笔建造世界、食物描写立人、风景画面收束，不抒情不说教。详细风格卡见 [references/style/wangzengqi.md](references/style/wangzengqi.md)。
+
+**可选风格：白话演绎**——现代口语、叙述自然，注重生动细腻的描写与心理刻画，不采用说书人体。用户要求「普通白话」「通俗一点」「不要太文学」时采用。详细风格卡见 [references/style/baihua-retelling.md](references/style/baihua-retelling.md)。
 
 **可选风格：莫言式**——说书人叙述、代际传承框架（「我爷爷说」「老辈人讲」）、魔幻现实笔触、浓烈乡土感官。用户要求「说书人体」「莫言风格」「像莫言那样讲」时采用。详细风格卡见 [references/style/moyan-folk.md](references/style/moyan-folk.md)。
 
@@ -56,8 +58,9 @@ description: 中国经典民间故事讲述助手，专门讲述/重述中国传
 ### 3. 讲述故事
 
 **讲述前回顾**（确定故事并读完参考文件后、落笔前）：
+- **动笔前指南**：加载 [references/writing-guide.md](references/writing-guide.md)，按「五分钟清单」过一遍——数节点定字数档位、数人物、标粗细、想开头与收束、查类型微调
 - 本则故事在 200 则中的分类与参考文件中的关键情节点
-- **风格卡**：默认加载 [references/style/baihua-retelling.md](references/style/baihua-retelling.md)；若用户要求说书人体或莫言风格则加载 [references/style/moyan-folk.md](references/style/moyan-folk.md)；若用户要求东野风格/推理感/真相反转则加载 [references/style/higashino.md](references/style/higashino.md)
+- **风格卡**：默认加载 [references/style/wangzengqi.md](references/style/wangzengqi.md)；若用户要求普通白话/通俗则加载 [references/style/baihua-retelling.md](references/style/baihua-retelling.md)；若用户要求说书人体或莫言风格则加载 [references/style/moyan-folk.md](references/style/moyan-folk.md)；若用户要求东野风格/推理感/真相反转则加载 [references/style/higashino.md](references/style/higashino.md)
 
 **读取参考文件**获取故事的准确出处、人物、关键情节、细节后，按以下原则讲述：
 
@@ -75,11 +78,11 @@ description: 中国经典民间故事讲述助手，专门讲述/重述中国传
 ```
 
 #### 讲述要点
-- **叙述自然**：用现代白话直接讲故事，不套用说书人开场/收场套话
-- **感官细节**：让读者「看见」场景——颜色、声音、气味、温度
-- **人物活起来**：给角色符合身份的语言、动作、小习惯
-- **节奏有张弛**：紧张处短句快推，抒情处放缓拉长
-- **心理与情感**：适当通过心理描写与情感细节增强代入感
+- **语言干净**：句子能短则短，能删的字删掉，不堆砌形容词
+- **闲笔建世界**：花几句话写一棵树、一碗饭、一个集市，看似跑题实则造氛围
+- **白描立人**：不说"他善良"，写他做了什么、说了什么，三五个细节人就站住了
+- **节奏松弛**：不赶，像散步；快处一笔带过，慢处一顿饭写半页
+- **风景收束**：段落或场景结尾放一个自然画面，不点破，让读者自己感觉
 
 ### 4. 评测与修订（必做）
 
@@ -131,9 +134,9 @@ description: 中国经典民间故事讲述助手，专门讲述/重述中国传
 ## 输出规范
 
 - 正文用自然段落，不加 Markdown 标题或格式标记
-- **篇幅固定**：每则故事 **6000–8000 字**（正文字数），需通过充实情节、细节与氛围达到该区间
+- **篇幅按故事容量分档**：短篇 2000–3500 字、中篇 4000–6000 字、长篇 7000–10000 字。动笔前按 [writing-guide.md](references/writing-guide.md) 的「数节点」方法确定档位，不硬撑字数
 - 如用户要求保存文件，存入 `novel/` 目录，文件名用故事名
-- **字数检查**：保存后若需汇报篇幅或核对是否达到约定字数，应调用 MCP 工具 **count_document(文件路径)** 获取精确字数，不足 6000 字时需补写，超过 8000 字可酌情精简。
+- **字数检查**：保存后应调用 MCP 工具 **count_document(文件路径)** 获取精确字数，核对是否落在该档位的区间内（短篇 2000–3500 / 中篇 4000–6000 / 长篇 7000–10000）。
 - **完成讲述后必须执行 4.1（创建 novel-editor-runner subagent 并执行评测），否则流程视为未完成。**
 
 ## 特殊场景
@@ -154,14 +157,15 @@ description: 中国经典民间故事讲述助手，专门讲述/重述中国传
 |------|--------------|
 | 确定故事且已知分类 | [200-stories-index.md](references/stories/200-stories-index.md) + 对应分类文档（mythology / four-legends / fables / heroes / folk-wisdom / fairy-mortal / liaozhai / history-legends / zhiguai） |
 | 推荐故事、防重复 | [told-stories.md](references/stories/told-stories.md) |
-| **讲述前（落笔前）** | 默认 [references/style/baihua-retelling.md](references/style/baihua-retelling.md)；说书人体/莫言风格→[moyan-folk.md](references/style/moyan-folk.md)；东野风格/推理感/真相反转→[higashino.md](references/style/higashino.md) |
+| **讲述前（落笔前）** | [references/writing-guide.md](references/writing-guide.md)（五分钟清单）+ 风格卡：默认 [wangzengqi.md](references/style/wangzengqi.md)；普通白话→[baihua-retelling.md](references/style/baihua-retelling.md)；莫言→[moyan-folk.md](references/style/moyan-folk.md)；东野→[higashino.md](references/style/higashino.md) |
 | 评测与修订 | 通过 mcp_task 调用 novel-editor-runner（见 4.1）、humanizer-zh-runner（见 4.3） |
 
 ## 风格参考
 
 | 内容 | 文件 |
 |------|------|
-| 白话演绎风格卡（默认） | [references/style/baihua-retelling.md](references/style/baihua-retelling.md) |
+| 汪曾祺风格卡（默认） | [references/style/wangzengqi.md](references/style/wangzengqi.md) |
+| 白话演绎风格卡（可选） | [references/style/baihua-retelling.md](references/style/baihua-retelling.md) |
 | 莫言民间故事风格卡（可选） | [references/style/moyan-folk.md](references/style/moyan-folk.md) |
 | 东野圭吾风格卡（可选） | [references/style/higashino.md](references/style/higashino.md) |
 
